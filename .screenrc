@@ -1,0 +1,27 @@
+# Disable the startup message
+startup_message off
+
+# Set a large scrollback buffer
+defscrollback 32000
+
+# Always start `screen` with UTF-8 enabled (`screen -U`)
+defutf8 on
+
+# Sets the visual bell to off. Thus, the audible bell is used
+vbell off
+
+# Automatically detach the session on SIGHUP
+autodetach on
+
+# Create a new shell. Start as a login-shell
+shell -$SHELL
+#shelltitle '$ |bash'
+
+# Buttom status bar
+hardstatus alwaysignore
+hardstatus alwayslastline "%{cb}%-Lw%{wb}%030>%n%f %t%{-}%+Lw%82<%82= | %{wb}%m/%d %C"
+
+# C-a b : encoding big5
+# C-a u : encoding utf8
+bind b encoding big5 utf8
+bind u encoding utf8 utf8

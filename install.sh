@@ -1,17 +1,11 @@
 #!/usr/bin/env bash
 
 function doIt() {
-    cp $(pwd)/.gitconfig ~/.gitconfig
-    cp $(pwd)/.gitattributes ~/.gitattributes
-    cp $(pwd)/.gitignore ~/.gitignore
-
-    # Load the shell dotfiles, and then some:
-    # * ~/.path can be used to extend `$PATH`.
-    # * ~/.extra can be used for other settings you don’t want to commit.
-    for file in .{path,bash_prompt,exports,aliases,functions,extra}; do
-        [ -r "$file" ] && [ -f "$file" ] && source "$file";
+    # Copy the files
+    for file in .{gitconfig,gitattributes,gitignore,screenrc,bash_profile,extra,aliases}; do
+	[ -r "$file" ] && [ -f "$file" ] && cp $(pwd)/$file ~/$file && echo copy $file;
     done;
-    unset file;
+    source ~/.bash_profile;
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
