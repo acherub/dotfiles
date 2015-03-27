@@ -5,7 +5,7 @@
 You can clone the repository and run the script to install:
 
 ```bash
-./install.sh
+source install.sh
 ```
 
-The installation is to copy dotfiles from the project folder, say `~dotfiles`, to `~`
+The installation is to copy dotfiles from the project folder, say `~/Projects/dotfiles`, to `~`
