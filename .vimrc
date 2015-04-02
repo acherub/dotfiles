@@ -1,6 +1,6 @@
 "================================================
 " Author: Chun-Hsien Chi (acherub)
-" Last Modified: 2014/05/15
+" Last Modified: 2016/05/15
 "================================================
 
 " Move the cursor to the previously editing position
@@ -24,9 +24,9 @@ if !filereadable(vundle_readme)
   let iCanHazVundle=0
 endif
 
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 " Vundle setting.
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -39,21 +39,55 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/vundle'
 
-" ::Basic editing or moving
-Bundle 'Lokaltog/vim-easymotion'
-let g:EasyMotion_leader_key = ','
-
-" extended % matching for HTML, LaTeX, and many other languages
-Bundle 'matchit.zip'
-
 " :: coding
-Bundle 'autoload_cscope.vim'
+Plugin 'autoload_cscope.vim'
 
 " :: language support
 
+" Completion
+" Bundle 'Valloric/YouCompleteMe'
+
+" Integration
+" Shows git diff in the 'gutter' (sign column)
+Plugin 'airblade/vim-gitgutter'
+
+" Interface
+" Show file-tree on sidebar
+Plugin 'scrooloose/nerdtree'
+" Show code structure on sidebar
+Plugin 'vim-scripts/taglist.vim'
+" Browse the tags of the current file and get an overview of its structure
+Plugin 'majutsushi/tagbar'
+" status bar and tabline for vim
+Plugin 'bling/vim-airline'
+
+" Commands
+" Parentheses, brackets, quotes, XML, tags, and more.
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
+" Pair some command with open/close bracket for easy use
+Plugin 'tpope/vim-unimpaired'
+" Line up text with symbol
+Plugin 'godlygeek/tabular'
+" extended % matching for HTML, LaTeX, and many other languages
+Plugin 'matchit.zip'
+" Plugin for moving fast
+Plugin 'Lokaltog/vim-easymotion'
+let g:EasyMotion_leader_key = ','
+
+" A Vim Bundle for visually displaying indent levels in code.
+Plugin 'nathanaelkane/vim-indent-guides'
+"Plugin 'tomasr/molokai'
+Plugin 'flazz/vim-colorschemes'
+
+Plugin 'scrooloose/nerdcommenter'
+
 " latex
-Bundle 'jcf/vim-latex'
-Bundle 'scrooloose/syntastic'
+Plugin 'vim-latex/vim-latex'
+"Plugin 'scrooloose/syntastic'
+
+" liu
+Plugin 'pi314/boshiamy.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -70,9 +104,9 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 " General
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 
 " Auto reload vimrc when editing it
 autocmd! bufwritepost .vimrc source ~/.vimrc
@@ -99,9 +133,34 @@ set clipboard=unnamed
 " Disable error bells
 set noerrorbells
 
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
+" Encoding settings
+"-----------------------------------------------------------------------
+set encoding=utf-8
+set termencoding=utf-8
+set fileencoding=utf-8
+set fileencodings=ucs-bom,utf-8,big5,gb2312,latin1
+
+function! ViewUTF8()
+    set encoding=utf-8
+    set termencoding=big5
+endfunction
+
+function! UTF8()
+    set encoding=utf-8
+    set termencoding=big5
+    set fileencoding=utf-8
+    set fileencodings=ucs-bom,big5,utf-8,latin1
+endfunction
+
+function! Big5()
+    set encoding=big5
+    set fileencoding=big5
+endfunction
+
+"-----------------------------------------------------------------------
 " Colors and Fonts
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 
 " Enable syntax highlighting
 syntax on
@@ -118,11 +177,16 @@ syntax on
 hi Pmenu guibg=#333333
 hi PmenuSel guibg=#555555 guifg=#ffffff
 
-set background=dark
+colorscheme solarized
+if has('gui_running')
+    set background=light
+else
+    set background=dark
+endif
 
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 " VIM userinterface
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 " Show the filename in the window titlebar
 set title
 
@@ -145,7 +209,11 @@ set ruler
 set ignorecase
 
 " Show “invisible” characters
+" lcs: listchars
 set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
+" Invisible character colors
+highlight NonText guifg=#4a4a59
+highlight SpecialKey guifg=#4a4a59
 "set list
 
 " Autoindent: always set autoindenting on
@@ -191,41 +259,16 @@ set nostartofline
 " Highlight current line
 "set cursorline
 
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 " Fileformats
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 
 " Favorite filetypes
 set ffs=unix,dos,mac
 
-"---------------------------------------------------------------------------
-" Encoding settings
-"---------------------------------------------------------------------------
-set encoding=utf-8
-set termencoding=utf-8
-set fileencoding=utf-8
-set fileencodings=ucs-bom,utf-8,big5,gb2312,latin1
-
-function! ViewUTF8()
-    set encoding=utf-8
-    set termencoding=big5
-endfunction
-
-function! UTF8()
-    set encoding=utf-8
-    set termencoding=big5
-    set fileencoding=utf-8
-    set fileencodings=ucs-bom,big5,utf-8,latin1
-endfunction
-
-function! Big5()
-    set encoding=big5
-    set fileencoding=big5
-endfunction
-
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 " Files and Bakcup
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 " Centralize backups, swapfiles and undo history
 set backupdir=~/.vim/backups,~/tmp,.,/var/tmp/vi.recover,/tmp
 set directory=~/.vim/swaps,~/tmp,/var/tmp/vi.recover,/tmp,.
@@ -236,27 +279,32 @@ endif
 " Don’t create backups when editing files in certain directories
 set backupskip=/tmp/*,/private/tmp/*
 
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 " Quick Fix
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 map cn :cn<CR>
 map cp :cp<CR>
 
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 " Using tab to edit files
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 map tn :tabnew
 map th :tabprev<CR>
 map tl :tabnext<CR>
 map td :tabclose<CR>
 
-"------------------------------------------------------------------------------
-" Folding
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
+" Using tab to edit files
+"-----------------------------------------------------------------------
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
+" Folding
+"-----------------------------------------------------------------------
+
+"-----------------------------------------------------------------------
 " Useful Keyboard Binding
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 " Change mapleader to ','
 let mapleader=","
 let g:mapleader=","
@@ -275,33 +323,40 @@ vnoremap > >gv
 map <leader>v :sp $VIMRC<CR><C-W>_
 map <silent> <leader>V :source $VIMRC<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
-"For Programming
+" For Programming
+" Showing the ASCII value of current character
 imap <F1>   <ESC>ga                         " replace <HLEP> by <ESC> in insert mode
 map <F1>    ga                              " dispplay encoding
-map <F2>    :set tenc=utf-8<CR>
-map <F5>    <ESC>:!gentags .<CR>
-map <F6>    <ESC>:w!<CR>:make -j4<CR>
+
+"map <F2>    :set tenc=utf-8<CR>
+"map <F5>    <ESC>:!gentags .<CR>
+"map <F6>    <ESC>:w!<CR>:make -j4<CR>
 map <F8>    :set hls!<BAR>set hls?<CR>      " switch hls/nohls
 map <F9>    :set nu!<BAR>set nu?<CR>        " switch nu/nonu
 map <F10>   :set list!<BAR>set list?<CR>    " switch list/nolist
 map <F11>   :%!xxd<CR>                      " display binary file by Hex
 map <F12>   :%!xxd -r<CR>                   " display normal text file
 
-"------------------------------------------------------------------------------
+nmap <CR>   o<ESC>k
+
+" Mapping ;; to <ESC> in normal mode
+imap ;;     <ESC>
+
+"-----------------------------------------------------------------------
 " Tip #382: Search for <cword> and replace with input() in all open buffers
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 function! Replace()
     let s:word = input("Replace " . expand('<cword>') . " with:")
     :exe 'bufdo! %s/\<' . expand('<cword>') . '\>/' . s:word . '/ge'
     :unlet! s:word
 endfunction
 
-"replace the current word in all opened buffers
+" Replace the current word in all opened buffers
 map <leader>r :call Replace()<CR>
 
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 " Remove trailing whitespace
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 highlight TrailingWhitespaces ctermbg=gray guibg=gray
 match TrailingWhitespaces /\s\+$/
 
@@ -313,10 +368,10 @@ function! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfunction
 
-autocmd FileWritePre   *.c,*.cpp,*.h,*.js,*.py :call <SID>StripTrailingWhitespaces()
-autocmd FileAppendPre  *.c,*.cpp,*.h,*.js,*.py :call <SID>StripTrailingWhitespaces()
-autocmd FilterWritePre *.c,*.cpp,*.h,*.js,*.py :call <SID>StripTrailingWhitespaces()
-autocmd BufWritePre    *.c,*.cpp,*.h,*.js,*.py :call <SID>StripTrailingWhitespaces()
+autocmd FileWritePre   *.c,*.cpp,*.h,*.js,*.py,*.java,*.tex :call <SID>StripTrailingWhitespaces()
+autocmd FileAppendPre  *.c,*.cpp,*.h,*.js,*.py,*.java,*.tex :call <SID>StripTrailingWhitespaces()
+autocmd FilterWritePre *.c,*.cpp,*.h,*.js,*.py,*.java,*.tex :call <SID>StripTrailingWhitespaces()
+autocmd BufWritePre    *.c,*.cpp,*.h,*.js,*.py,*.java,*.tex :call <SID>StripTrailingWhitespaces()
 nmap <F2> :call <SID>StripTrailingWhitespaces()<CR>
 
 " Strip trailing whitespace (,ss)
@@ -329,11 +384,11 @@ function! StripWhitespace()
 endfunction
 noremap <leader>ss :call StripWhitespace()<CR>
 
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 " Language Specific
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 " C++
-function! GenCPPHeader()
+function! GenCppHeader()
     call setline(1, "#include <iostream>")
     call append(line("."), "")
     call append(line(".")+1, "using namespace std;")
@@ -346,7 +401,7 @@ function! GenCPPHeader()
     call append(line(".")+8, "")
 endfunction
 
-autocmd BufNewFile *.cpp exec ":call GenCPPHeader()"
+autocmd BufNewFile *.cpp exec ":call GenCppHeader()"
 
 " Perl
 function! GenPerlHeader()
@@ -386,16 +441,66 @@ autocmd FileType python map <leader>e :w<CR>:!python %<CR>
 
 autocmd BufRead /tmp/crontab* :set backupcopy=yes
 
-"------------------------------------------------------------------------------
+" Set spell checking and automatic wrapping 72 characters in the message
+autocmd Filetype gitcommit setlocal textwidth=72
+
+" Set the QuickFix window always on the bottom taking the whole horizontal
+" space
+autocmd Filetype qf wincmd J
+
+"-----------------------------------------------------------------------
 " Plug-in Setting
-"------------------------------------------------------------------------------
+"-----------------------------------------------------------------------
 
 "Python
 "if has("autocmd")
 "  autocmd FileType python set complete+=k~/.vim/tags/pydiction-0.5/pydiction
 "endif
 
+"------------------------------------
+" NERDtree
+"------------------------------------
+nnoremap <silent> <F5> :NERDTreeToggle<CR>
+
+"------------------------------------
+" YouCompleteMe
+"------------------------------------
+" let g:ycm_confirm_extra_conf = 0
+" let g:ycm_key_list_select_completion = ['<TAB>']
+" let g:ycm_key_list_previous_completion=['<S-TAB>']
+" let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+
+" Toggle with <Leader>ig
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=Grey25 ctermbg=3
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=Grey25 ctermbg=4
+" au VimEnter * IndentGuidesToggle
+
+"------------------------------------
+" Taglist
+"------------------------------------
+nmap <silent><F11> :TlistToggle<CR>
+imap <silent><F11> <C-o>:TlistToggle<CR>
+"let Tlist_Ctags_Cmd = '/usr/bin/ctags'
+let Tlist_Use_SingleClick = 1
+let Tlist_Use_Right_Window = 1
+let Tlist_Show_One_File = 1
+let Tlist_Exit_OnlyWindow = 1
+let tlist_php_settings = 'php;c:class;d:constant;f:function'
+
+"------------------------------------
+" TagBar
+"------------------------------------
+" toggle TagBar with F7
+nnoremap <silent> <F7> :TagbarToggle<CR>
+" set focus to TagBar when opening it
+let g:tagbar_autofocus = 1
+
+"------------------------------------
 " Vim-Latex
+"------------------------------------
 
 " IMPORTANT: win32 users will need to have 'shellslash' set so that latex
 " can be called correctly.
@@ -414,9 +519,46 @@ set grepprg=grep\ -nH\ $*
 " The following changes the default filetype back to 'tex':
 let g:tex_flavor='latex'
 
-" ---- syntastic
+"------------------------------------
+" Syntastic
+"------------------------------------
 "let g:syntastic_jshint_exec="jshint-gecko"
 "let g:syntastic_javascript_checkers = ['jshint']
-let g:syntastic_python_checkers=['pyflakes', 'pylint']
-let g:syntastic_always_populate_loc_list = 1
-nnoremap <silent> <F4> :lwindow<CR>
+"let g:syntastic_python_checkers=['pyflakes', 'pylint']
+"let g:syntastic_always_populate_loc_list = 1
+"nnoremap <silent> <F4> :lwindow<CR>
+
+"------------------------------------
+" Vim-airline
+"------------------------------------
+let g:airline_powerline_fonts = 1
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+" powerline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
+
+" enable tabline
+let g:airline#extensions#tabline#enabled = 1
+" set left separator
+let g:airline#extensions#tabline#left_sep = ''
+" set left separator which are not editting
+let g:airline#extensions#tabline#left_alt_sep = ''
+" show buffer number
+let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
+" Set solarized theme
+let g:airline_theme='solarized'
+
+"------------------------------------
+" Vim-gitgutter
+"------------------------------------
+" disable the highlight for sign column (for vim-airline)
+highlight clear SignColumn

@@ -2,7 +2,7 @@
 
 function doIt() {
     # Copy the files
-    for file in .{gitconfig,gitattributes,gitignore,screenrc,bash_profile,extra,aliases,bash_prompt,functions,exports,vimrc,tmux.conf}; do
+    for file in .{gitconfig,gitattributes,gitignore,screenrc,bash_profile,extra,aliases,bash_prompt,functions,exports,vimrc,tmux.conf,dircolors}; do
 	[ -r "$file" ] && [ -f "$file" ] && cp $(pwd)/$file ~/$file && echo copy $file;
     done;
     source ~/.bash_profile;
