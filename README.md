@@ -17,25 +17,6 @@ The installation is to copy dotfiles from the project folder, say `~/Projects/do
 * [vim-gitgutter](https://github.com/airblade/vim-gitgutter)
   * The highlight for sign column was disabled for vim-airline
 * [nerdtree](https://github.com/scrooloose/nerdtree)
-# acherub's dotfiles
-
-## Installation
-
-You can clone the repository and run the script to install:
-
-```bash
-source install.sh
-```
-
-The installation is to copy dotfiles from the project folder, say `~/Projects/dotfiles`, to `~`
-
-## VIM
-
-### Vim plugins
-
-* [vim-gitgutter](https://github.com/airblade/vim-gitgutter)
-  * The highlight for sign column was disabled for vim-airline
-* [nerdtree](https://github.com/scrooloose/nerdtree)
   * `<F5>` to toggle nerdtree
 * [unimpaired](https://github.com/tpope/vim-unimpaired)
   * [Document](https://github.com/tpope/vim-unimpaired/blob/master/doc/unimpaired.txt)
@@ -69,7 +50,7 @@ The installation is to copy dotfiles from the project folder, say `~/Projects/do
   * `,` + `f`
 * [vim-repeat](https://github.com/tpope/vim-repeat)
 * matchit
-* [vim-color]()
+* [vim-colorschemes](https://github.com/flazz/vim-colorschemes)
   * Set the `colortheme` as `solarized` in `vimrc`
 * [vim-latex](https://github.com/vim-latex/vim-latex)
 
@@ -106,7 +87,7 @@ highlight clear SignColumn
 #### Function keys
 
 * `<F5>`: Toggle NERDTree
-* `<F6>`:
+* `<F6>`: Not using
 * `<F7>`: Toggle TagBar
 * `<F8>`: Switch hls/nohls (Could be replaced by unimpaired)
 * `<F9>`: Switch for line number

@@ -470,6 +470,9 @@ nnoremap <silent> <F5> :NERDTreeToggle<CR>
 " let g:ycm_key_list_previous_completion=['<S-TAB>']
 " let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 
+"------------------------------------
+" Vim-indent Guide
+"------------------------------------
 " Toggle with <Leader>ig
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_start_level = 2
@@ -499,8 +502,11 @@ nnoremap <silent> <F7> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 
 "------------------------------------
-" Vim-Latex
+" Vim-LaTeX
 "------------------------------------
+
+" REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
+filetype plugin on
 
 " IMPORTANT: win32 users will need to have 'shellslash' set so that latex
 " can be called correctly.
@@ -508,7 +514,7 @@ set shellslash
 
 " IMPORTANT: grep will sometimes skip displaying the file name if you
 " search in a singe file. This will confuse latex-suite. Set your grep
-" program to alway generate a file-name.
+" program to always generate a file-name.
 set grepprg=grep\ -nH\ $*
 
 " OPTIONAL: This enables automatic indentation as you type.
