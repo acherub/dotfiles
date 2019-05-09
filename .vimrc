@@ -43,6 +43,10 @@ Plugin 'gmarik/vundle'
 Plugin 'autoload_cscope.vim'
 
 " :: language support
+" Plugin for Qt syntax
+Plugin 'fedorenchik/qt-support.vim'
+" Plugin for Kotlin Support
+Plugin 'udalov/kotlin-vim'
 
 " Completion
 " Bundle 'Valloric/YouCompleteMe'
@@ -60,6 +64,8 @@ Plugin 'vim-scripts/taglist.vim'
 Plugin 'majutsushi/tagbar'
 " status bar and tabline for vim
 Plugin 'bling/vim-airline'
+" VIM airline theme
+Plugin 'vim-airline/vim-airline-themes'
 
 " Commands
 " Parentheses, brackets, quotes, XML, tags, and more.
@@ -73,6 +79,9 @@ Plugin 'godlygeek/tabular'
 Plugin 'matchit.zip'
 " Plugin for moving fast
 Plugin 'Lokaltog/vim-easymotion'
+" Plugin for fuzzy file finder
+Plugin 'kien/ctrlp.vim'
+
 let g:EasyMotion_leader_key = ','
 
 " A Vim Bundle for visually displaying indent levels in code.
@@ -562,6 +571,20 @@ let g:airline#extensions#tabline#left_alt_sep = ''
 let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
 " Set solarized theme
 let g:airline_theme='solarized'
+let g:airline#extensions#tagbar#enabled = 0
+
+"------------------------------------
+" CrtlP
+"------------------------------------
+"let g:ctrlp_map = '<c-p>'
+let g:ctrlp_map = '<leader>p'
+map <leader>f :CtrlPMRU<CR>
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll|pyc|bmp|jpg)$',
+  \ }
+let g:ctrlp_working_path_mode = 'ra'
 
 "------------------------------------
 " Vim-gitgutter

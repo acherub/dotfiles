@@ -53,6 +53,8 @@ The installation is to copy dotfiles from the project folder, say `~/Projects/do
 * [vim-colorschemes](https://github.com/flazz/vim-colorschemes)
   * Set the `colortheme` as `solarized` in `vimrc`
 * [vim-latex](https://github.com/vim-latex/vim-latex)
+* [ctrlp](https://github.com/kien/ctrlp.vim)
+  * `,` + `p`: Open the ctrl p window
 
 ### VIM Theme - Solarized
 
