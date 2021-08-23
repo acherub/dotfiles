@@ -1,6 +1,6 @@
 "================================================
 " Author: Chun-Hsien Chi (acherub)
-" Last Modified: 2016/05/15
+" Last Modified: 2021/07/26
 "================================================
 
 " Move the cursor to the previously editing position
@@ -79,10 +79,16 @@ Plugin 'godlygeek/tabular'
 Plugin 'matchit.zip'
 " Plugin for moving fast
 Plugin 'Lokaltog/vim-easymotion'
+let g:EasyMotion_leader_key = ','
+
 " Plugin for fuzzy file finder
 Plugin 'kien/ctrlp.vim'
 
-let g:EasyMotion_leader_key = ','
+" Plugin for source code definition
+Plugin 'wesleyche/SrcExpl'
+
+" Plugin to open NERDTree/TagList/SrcExpl
+Plugin 'wesleyche/Trinity'
 
 " A Vim Bundle for visually displaying indent levels in code.
 Plugin 'nathanaelkane/vim-indent-guides'
@@ -340,9 +346,9 @@ map <F1>    ga                              " dispplay encoding
 "map <F2>    :set tenc=utf-8<CR>
 "map <F5>    <ESC>:!gentags .<CR>
 "map <F6>    <ESC>:w!<CR>:make -j4<CR>
-map <F8>    :set hls!<BAR>set hls?<CR>      " switch hls/nohls
-map <F9>    :set nu!<BAR>set nu?<CR>        " switch nu/nonu
-map <F10>   :set list!<BAR>set list?<CR>    " switch list/nolist
+"map <F8>    :set hls!<BAR>set hls?<CR>      " switch hls/nohls
+"map <F9>    :set nu!<BAR>set nu?<CR>        " switch nu/nonu
+"map <F10>   :set list!<BAR>set list?<CR>    " switch list/nolist
 map <F11>   :%!xxd<CR>                      " display binary file by Hex
 map <F12>   :%!xxd -r<CR>                   " display normal text file
 
@@ -470,6 +476,7 @@ autocmd Filetype qf wincmd J
 " NERDtree
 "------------------------------------
 nnoremap <silent> <F5> :NERDTreeToggle<CR>
+let g:NERDTreeWinPos = "left"
 
 "------------------------------------
 " YouCompleteMe
@@ -497,7 +504,7 @@ nmap <silent><F11> :TlistToggle<CR>
 imap <silent><F11> <C-o>:TlistToggle<CR>
 "let Tlist_Ctags_Cmd = '/usr/bin/ctags'
 let Tlist_Use_SingleClick = 1
-let Tlist_Use_Right_Window = 1
+let Tlist_Use_Right_Window = 0
 let Tlist_Show_One_File = 1
 let Tlist_Exit_OnlyWindow = 1
 let tlist_php_settings = 'php;c:class;d:constant;f:function'
@@ -509,6 +516,27 @@ let tlist_php_settings = 'php;c:class;d:constant;f:function'
 nnoremap <silent> <F7> :TagbarToggle<CR>
 " set focus to TagBar when opening it
 let g:tagbar_autofocus = 1
+
+"------------------------------------
+" Tagbar Settings
+"------------------------------------
+" Open and close the tagbar separately
+nmap <F7> :TagbarToggle<CR>
+
+"------------------------------------
+" Trinity Settings
+"------------------------------------
+" Open and close all the three plugins on the same time
+nmap <F8>  :TrinityToggleAll<CR>
+
+" Open and close the Source Explorer separately
+nmap <F9>  :TrinityToggleSourceExplorer<CR>
+
+" Open and close the Taglist separately
+nmap <F10> :TrinityToggleTagList<CR>
+
+" Open and close the NERD Tree separately
+nmap <F11> :TrinityToggleNERDTree<CR>
 
 "------------------------------------
 " Vim-LaTeX
@@ -578,7 +606,7 @@ let g:airline#extensions#tagbar#enabled = 0
 "------------------------------------
 "let g:ctrlp_map = '<c-p>'
 let g:ctrlp_map = '<leader>p'
-map <leader>f :CtrlPMRU<CR>
+map <leader>m :CtrlPMRU<CR>
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',

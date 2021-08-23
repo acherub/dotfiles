@@ -20,9 +20,10 @@ The installation is to copy dotfiles from the project folder, say `~/Projects/do
   * `<F5>` to toggle nerdtree
 * [unimpaired](https://github.com/tpope/vim-unimpaired)
   * [Document](https://github.com/tpope/vim-unimpaired/blob/master/doc/unimpaired.txt)
+  * `yol`: toggle list
+  * `yon`: toggle number
+  * `yoh`: toggle hlsearch
   * `[` / `]` to open / close settings
-  * `ol`: list/nolist
-  * `on`: number/nonumber
   *  `b`: buffer switch
   *  `B`: buffer first/last
   *  `q`: quickfix switch
@@ -32,6 +33,7 @@ The installation is to copy dotfiles from the project folder, say `~/Projects/do
 * [vim-surround](https://github.com/tpope/vim-surround)
   * `cs` + `marker1` + `marker2`: change `marker1` as `marker2` (ex: `cs"'`)
   * `ds` + `marker`: delete `marker` (ex: `ds"`)
+  * `ys`: add surround
 * [tagbar](https://github.com/majutsushi/tagbar)
   * `<F7>`: Toggle TagBar
 * [taglist](http://vimawesome.com/plugin/taglist-vim)
@@ -54,7 +56,8 @@ The installation is to copy dotfiles from the project folder, say `~/Projects/do
   * Set the `colortheme` as `solarized` in `vimrc`
 * [vim-latex](https://github.com/vim-latex/vim-latex)
 * [ctrlp](https://github.com/kien/ctrlp.vim)
-  * `,` + `p`: Open the ctrl p window
+  * `,` + `p`: Open the ctrl p window, current directory and sub-directories
+  * `,` + `m`: Open the ctrl p window, with recently modified files
 
 ### VIM Theme - Solarized
 
@@ -88,13 +91,13 @@ highlight clear SignColumn
 
 #### Function keys
 
-* `<F5>`: Toggle NERDTree
+* `<F5>`: Toggle NERDTree (on Left)
 * `<F6>`: Not using
 * `<F7>`: Toggle TagBar
-* `<F8>`: Switch hls/nohls (Could be replaced by unimpaired)
-* `<F9>`: Switch for line number
-* `<F10>`: Switch for list
-* `<F11>`: Toggle Tlist
+* `<F8>`: Trinity Toggle All
+* `<F9>`: Trinity Toggle ScrExpl
+* `<F10>`: Trinity Toggle TagList
+* `<F11>`: Trinity Toggle NerdTree (onRight)
 
 #### Commands with Leader keys
 
