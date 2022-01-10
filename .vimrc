@@ -1,6 +1,6 @@
 "================================================
 " Author: Chun-Hsien Chi (acherub)
-" Last Modified: 2021/07/26
+" Last Modified: 2022/01/10
 "================================================
 
 if !exists('g:env')
@@ -102,6 +102,7 @@ let g:EasyMotion_leader_key = ','
 
 " Plugin for fuzzy file finder
 Plugin 'kien/ctrlp.vim'
+Plugin 'Yggdroot/LeaderF'
 
 " Plugin for source code definition
 Plugin 'wesleyche/SrcExpl'
@@ -122,6 +123,9 @@ Plugin 'vim-latex/vim-latex'
 
 " liu
 Plugin 'pi314/boshiamy.vim'
+
+" Automatically generate tags
+Plugin 'ludovicchabant/vim-gutentags'
 
 " All of your Plugins must be added before the following line
 
@@ -370,21 +374,6 @@ else
     set backupskip=/tmp/*,/private/tmp/*
 endif
 
-
-"-----------------------------------------------------------------------
-" Quick Fix
-"-----------------------------------------------------------------------
-map cn :cn<CR>
-map cp :cp<CR>
-
-"-----------------------------------------------------------------------
-" Using tab to edit files
-"-----------------------------------------------------------------------
-map tn :tabnew
-map th :tabprev<CR>
-map tl :tabnext<CR>
-map td :tabclose<CR>
-
 "-----------------------------------------------------------------------
 " Using tab to edit files
 "-----------------------------------------------------------------------
@@ -433,6 +422,22 @@ map <F12>   :%!xxd -r<CR>                   " display normal text file
 
 " Mapping ;; to <ESC> in normal mode
 imap ;;     <ESC>
+
+"-----------------------------------------------------------------------
+" Quick Fix
+"-----------------------------------------------------------------------
+map cn :cn<CR>
+map cp :cp<CR>
+noremap <leader>co :copen<CR>
+noremap <leader>cc :cclose<CR>
+
+"-----------------------------------------------------------------------
+" Using tab to edit files
+"-----------------------------------------------------------------------
+map tn :tabnew
+map th :tabprev<CR>
+map tl :tabnext<CR>
+map td :tabclose<CR>
 
 "-----------------------------------------------------------------------
 " Tip #382: Search for <cword> and replace with input() in all open buffers
@@ -693,6 +698,66 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll|pyc|bmp|jpg)$',
   \ }
 let g:ctrlp_working_path_mode = 'ra'
+
+"------------------------------------
+" LeaderF
+"------------------------------------
+" Search recursively into submodule
+let g:Lf_RecurseSubmodules = 1
+
+" disable fancy icon by ':leaderf file' because of font not supported
+let g:Lf_ShowDevIcons = 0
+
+" always search files under the project root,
+" even though my current working directory may not be in the project root
+let g:Lf_WorkingDirectoryMode = 'AF'
+let g:Lf_RootMarkers = [ '.git', '.svn', '.hg', '.project', '.root']
+
+let g:Lf_PreviewInPopup = 1
+let g:Lf_WindowHeight = 0.30
+let g:Lf_StlColorscheme = 'powerline'
+
+" In case it conflicts with 'easy motion'
+let g:Lf_ShortcutF = "<leader>ff"
+
+noremap <leader>fm :LeaderfMru<cr>
+"noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+
+"------------------------------------
+" gutentags
+"------------------------------------
+" customize project roots, only generate tags for special directory
+let g:gutentags_add_default_project_roots = 0
+
+" set project root of project root
+let g:gutentags_project_root = ['.croot']
+
+let g:gutentags_ctags_tagfile = '.tags'
+
+" move generated tags to certain directory
+let s:vim_tags = expand('~/.LfCache/ctags')
+let g:gutentags_cache_dir = s:vim_tags
+
+" FIXME:
+if isdirectory("kernel/") && isdirectory("mm/")
+    let g:gutentags_file_list_command = 'find arch/arm* arch/riscv block crypto drivers fs include init ipc kernel lib mm net security sound virt'
+endif
+
+" FIXME:
+" for rt-thread project
+if isdirectory("libcpu/") && isdirectory("bsp/")
+    let g:gutentags_file_list_command = 'find include libcpu src components examples bsp/rockchip* '
+endif
+
+if !isdirectory(s:vim_tags)
+    silent! call mkdir(s:vim_tags, 'p')
+endif
+
+"FIXME: not sure why I is not supported, not sure the configurations
+let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+"let g:gutentags_ctags_extra_args += ['--c++-kinds=+pxI']
+let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
+let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 
 "------------------------------------
 " Vim-gitgutter

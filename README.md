@@ -28,6 +28,8 @@ The installation is to copy dotfiles from the project folder, say `~/Projects/do
   *  `B`: buffer first/last
   *  `q`: quickfix switch
   *  `Q`: quickfix first/last
+  *  `<space>`: to add new line before/after current line
+  *  `e`: bubble line up/down
 * [vim-airline](https://github.com/bling/vim-airline)
   * The theme is also set to `solarized`
 * [vim-surround](https://github.com/tpope/vim-surround)
@@ -54,14 +56,24 @@ The installation is to copy dotfiles from the project folder, say `~/Projects/do
 * matchit
 * [vim-colorschemes](https://github.com/flazz/vim-colorschemes)
   * Set the `colortheme` as `solarized` in `vimrc`
+  * For windows, `solorzied` is not used.
 * [vim-latex](https://github.com/vim-latex/vim-latex)
 * [ctrlp](https://github.com/kien/ctrlp.vim)
   * `,` + `p`: Open the ctrl p window, current directory and sub-directories
   * `,` + `m`: Open the ctrl p window, with recently modified files
+* [leaderf](https://github.com/Yggdroot/LeaderF)
+  * `,` + `ff`: Open the leaderf window
+* [vim-gutentags](https://github.com/ludovicchabant/vim-gutentags)
+  * Generate tags automatically when the root folder (with .croot) is found
+  * ctags is required
 
 ### VIM Theme - Solarized
 
 Here are some notes about setting terminal color in windows
+
+#### Windows Support
+
+Download the [ansi\_blows.](https://www.vim.org/scripts/script.php?script_id=2562) color scheme
 
 #### Pietty
 
