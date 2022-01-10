@@ -3,6 +3,14 @@
 " Last Modified: 2021/07/26
 "================================================
 
+if !exists('g:env')
+  if has('win64') || has('win32') || has('win16')
+    let g:env = 'WINDOWS'
+  else
+    let g:env = toupper(substitute(system('uname'), '\n', '', ''))
+  endif
+endif
+
 " Move the cursor to the previously editing position
 if filereadable($VIMRUNTIME . "/vimrc_example.vim")
  so $VIMRUNTIME/vimrc_example.vim
@@ -12,16 +20,18 @@ if filereadable($VIMRUNTIME . "/macros/matchit.vim")
  so $VIMRUNTIME/macros/matchit.vim
 endif
 
-" http://www.erikzaadi.com/2012/03/19/auto-installing-vundle-from-your-vimrc/
-" Setting up Vundle - the vim plugin bundler
-let iCanHazVundle=1
-let vundle_readme=expand('~/.vim/bundle/Vundle.vim/README.md')
-if !filereadable(vundle_readme)
-  echo "Installing Vundle.."
-  echo ""
-  silent !mkdir -p ~/.vim/bundle
-  silent !git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-  let iCanHazVundle=0
+if g:env !~ "WINDOWS"
+    " http://www.erikzaadi.com/2012/03/19/auto-installing-vundle-from-your-vimrc/
+    " Setting up Vundle - the vim plugin bundler
+    let iCanHazVundle=1
+    let vundle_readme=expand('~/.vim/bundle/Vundle.vim/README.md')
+    if !filereadable(vundle_readme)
+      echo "Installing Vundle.."
+      echo ""
+      silent !mkdir -p ~/.vim/bundle
+      silent !git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+      let iCanHazVundle=0
+    endif
 endif
 
 "-----------------------------------------------------------------------
@@ -31,10 +41,16 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-" call vundle#begin('~/some/path/here')
+if g:env =~ "WINDOWS"
+    set rtp+=$VIM/vimfiles/bundle/Vundle.vim
+    call vundle#begin('$VIM/vimfiles/bundle/')
+else
+    set rtp+=~/.vim/bundle/Vundle.vim
+    call vundle#begin()
+    " alternatively, pass a path where Vundle should install plugins
+    " call vundle#begin('~/some/path/here')
+endif
+
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/vundle'
@@ -62,10 +78,13 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'vim-scripts/taglist.vim'
 " Browse the tags of the current file and get an overview of its structure
 Plugin 'majutsushi/tagbar'
-" status bar and tabline for vim
-Plugin 'bling/vim-airline'
-" VIM airline theme
-Plugin 'vim-airline/vim-airline-themes'
+
+if g:env !~ "WINDOWS"
+    " status bar and tabline for vim
+    Plugin 'bling/vim-airline'
+    " VIM airline theme
+    Plugin 'vim-airline/vim-airline-themes'
+endif
 
 " Commands
 " Parentheses, brackets, quotes, XML, tags, and more.
@@ -105,7 +124,12 @@ Plugin 'vim-latex/vim-latex'
 Plugin 'pi314/boshiamy.vim'
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
+
+if g:env =~ "WINDOWS"
+    call vundle#end('$VIM/vimfiles/bundle/') " required
+else
+    call vundle#end()            " required
+endif
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
@@ -124,7 +148,9 @@ filetype plugin indent on    " required
 "-----------------------------------------------------------------------
 
 " Auto reload vimrc when editing it
-autocmd! bufwritepost .vimrc source ~/.vimrc
+if g:env !~ "WINDOWS"
+    autocmd! bufwritepost .vimrc source ~/.vimrc
+endif
 
 " Get out of VI's compatible mode
 set nocompatible
@@ -173,6 +199,40 @@ function! Big5()
     set fileencoding=big5
 endfunction
 
+" 2022/01/06 --> Not sure if it's required
+"============ encoding utf8 ===============
+" piaip's gvim settings for gvim/win32 with UTF8
+" optimized for Traditional Chinese users
+" last update: Mon Jun 7 17:59:54 CST 2004
+"let $LANG="zh_TW.UTF-8" " locales
+"set encoding=utf-8 " ability
+"set fileencoding=big5 " prefer
+" charset detect list. ucs-bom must be earlier than ucs*.
+"set fileencodings=ascii,ucs-bom,utf-8,ucs-2,ucs-le,sjis,big5,latin1
+" for console mode we use big5
+"set fileencodings=utf-8,big5,euc-jp,gbk,euc-kr,utf-bom,iso8859-1
+"set encoding=utf8
+"set tenc=utf8
+
+if g:env =~ "WINDOWS"
+    " Encoding Setting
+    "
+    set fileencodings=utf-8,big5,gbk,gb2312,cp936,iso-2022-jp,sjis,euc-jp "charset detect list. ucs-bom must be earlier than ucs
+
+    if has("gui_running")
+    set termencoding=utf-8
+    else
+    set termencoding=big5
+    endif
+
+    set langmenu=en_US
+    let $LANG = 'en_US'
+
+    source $VIMRUNTIME/delmenu.vim
+endif
+"============ encoding utf8 ===============
+
+
 "-----------------------------------------------------------------------
 " Colors and Fonts
 "-----------------------------------------------------------------------
@@ -192,12 +252,19 @@ syntax on
 hi Pmenu guibg=#333333
 hi PmenuSel guibg=#555555 guifg=#ffffff
 
-colorscheme solarized
-if has('gui_running')
-    set background=light
+if g:env =~ "WINDOWS"
+    colorscheme ansi_blows
+    "set guifont=Courier\ New:h10
+    set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h10
 else
-    set background=dark
+    colorscheme solarized
+    if has('gui_running')
+        set background=light
+    else
+        set background=dark
+    endif
 endif
+
 
 "-----------------------------------------------------------------------
 " VIM userinterface
@@ -274,6 +341,10 @@ set nostartofline
 " Highlight current line
 "set cursorline
 
+if g:env =~ "WINDOWS"
+    "set enc=taiwan
+    set laststatus=2                " Display a status-bar.
+endif
 "-----------------------------------------------------------------------
 " Fileformats
 "-----------------------------------------------------------------------
@@ -285,14 +356,20 @@ set ffs=unix,dos,mac
 " Files and Bakcup
 "-----------------------------------------------------------------------
 " Centralize backups, swapfiles and undo history
-set backupdir=~/.vim/backups,~/tmp,.,/var/tmp/vi.recover,/tmp
-set directory=~/.vim/swaps,~/tmp,/var/tmp/vi.recover,/tmp,.
-if exists("&undodir")
-    set undodir=~/.vim/undo,~/tmp,/var/tmp/vi.recover,/tmp,.
+if g:env =~ "WINDOWS"
+    set backupdir=C:\vimbak
+    set directory=C:\vimbak\swap
+    set undodir=C:\vimbak
+else
+    set backupdir=~/.vim/backups,~/tmp,.,/var/tmp/vi.recover,/tmp
+    set directory=~/.vim/swaps,~/tmp,/var/tmp/vi.recover,/tmp,.
+    if exists("&undodir")
+        set undodir=~/.vim/undo,~/tmp,/var/tmp/vi.recover,/tmp,.
+    endif
+    " Don’t create backups when editing files in certain directories
+    set backupskip=/tmp/*,/private/tmp/*
 endif
 
-" Don’t create backups when editing files in certain directories
-set backupskip=/tmp/*,/private/tmp/*
 
 "-----------------------------------------------------------------------
 " Quick Fix
@@ -335,8 +412,8 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Fast editing vimrc and reload it, need to define $VIMRC
-map <leader>v :sp $VIMRC<CR><C-W>_
-map <silent> <leader>V :source $VIMRC<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
+"map <leader>v :sp $VIMRC<CR><C-W>_
+"map <silent> <leader>V :source $VIMRC<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " For Programming
 " Showing the ASCII value of current character
@@ -352,7 +429,7 @@ map <F1>    ga                              " dispplay encoding
 map <F11>   :%!xxd<CR>                      " display binary file by Hex
 map <F12>   :%!xxd -r<CR>                   " display normal text file
 
-nmap <CR>   o<ESC>k
+"nmap <CR>   o<ESC>k
 
 " Mapping ;; to <ESC> in normal mode
 imap ;;     <ESC>
@@ -455,6 +532,7 @@ autocmd BufNewFile *.py exec ":call GenPythonHeader()"
 autocmd FileType python map <leader>e :w<CR>:!python %<CR>
 
 autocmd BufRead /tmp/crontab* :set backupcopy=yes
+autocmd BufRead wscript set syntax=python
 
 " Set spell checking and automatic wrapping 72 characters in the message
 autocmd Filetype gitcommit setlocal textwidth=72
@@ -574,32 +652,34 @@ let g:tex_flavor='latex'
 "------------------------------------
 " Vim-airline
 "------------------------------------
-let g:airline_powerline_fonts = 1
+if g:env !~ "WINDOWS"
+    let g:airline_powerline_fonts = 1
 
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
+    if !exists('g:airline_symbols')
+      let g:airline_symbols = {}
+    endif
+
+    " powerline symbols
+    let g:airline_left_sep = ''
+    let g:airline_left_alt_sep = ''
+    let g:airline_right_sep = ''
+    let g:airline_right_alt_sep = ''
+    let g:airline_symbols.branch = ''
+    let g:airline_symbols.readonly = ''
+    let g:airline_symbols.linenr = ''
+
+    " enable tabline
+    let g:airline#extensions#tabline#enabled = 1
+    " set left separator
+    let g:airline#extensions#tabline#left_sep = ''
+    " set left separator which are not editting
+    let g:airline#extensions#tabline#left_alt_sep = ''
+    " show buffer number
+    let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
+    " Set solarized theme
+    let g:airline_theme='solarized'
+    let g:airline#extensions#tagbar#enabled = 0
 endif
-
-" powerline symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
-
-" enable tabline
-let g:airline#extensions#tabline#enabled = 1
-" set left separator
-let g:airline#extensions#tabline#left_sep = ''
-" set left separator which are not editting
-let g:airline#extensions#tabline#left_alt_sep = ''
-" show buffer number
-let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
-" Set solarized theme
-let g:airline_theme='solarized'
-let g:airline#extensions#tagbar#enabled = 0
 
 "------------------------------------
 " CrtlP
