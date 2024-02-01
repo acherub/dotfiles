@@ -261,7 +261,7 @@ if g:env =~ "WINDOWS"
     "set guifont=Courier\ New:h10
     set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h10
 else
-    colorscheme solarized
+    "colorscheme solarized
     if has('gui_running')
         set background=light
     else
@@ -682,7 +682,7 @@ if g:env !~ "WINDOWS"
     " show buffer number
     let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
     " Set solarized theme
-    let g:airline_theme='solarized'
+    "let g:airline_theme='solarized'
     let g:airline#extensions#tagbar#enabled = 0
 endif
 

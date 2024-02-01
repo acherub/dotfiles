@@ -24,7 +24,7 @@
 [init]
 
 	# Set commit hook directory for Change-Id
-	templatedir = /usr/share/git-core/templates/hooks/
+        # templatedir = /usr/share/git-core/templates/hooks/
 
 [alias]
 
