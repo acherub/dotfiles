@@ -49,6 +49,7 @@ The installation is to copy dotfiles from the project folder, say `~/Projects/do
 * [nerdtree](https://github.com/scrooloose/nerdtree)
 * [vim-easymotion](https://github.com/Lokaltog/vim-easymotion)
   * `g:EasyMotion_leader_key` is set to `,`
+  * `,` + `s`
   * `,` + `w`
   * `,` + `b`
   * `,` + `f`
@@ -120,3 +121,14 @@ highlight clear SignColumn
 #### Normal Mode Shortcuts
 
 * `;;`: Mapping `;;` to `<ESC>` in normal mode
+
+# Mac
+
+## Oh-my-zsh
+
+Oh-my-zsh changes the style of editing. Please install it right after you get a new computer. Here's couple of plugins used here:
+
+* Theme: powerlevel10k
+* Plugins: zsh-completions zsh-autosuggestions zsh-syntax-highlighting
+
+`fzf` is also one of the must use plugin to enhance the performance.
