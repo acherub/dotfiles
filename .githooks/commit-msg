@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+MSGFILE="$1"
+
+# Read first line as title (strip CR)
+TITLE=$(sed -n '1p' "$MSGFILE" | tr -d '\r')
+TITLE_LEN=${#TITLE}
+MAX_TITLE=50
+if [ "$TITLE_LEN" -gt "$MAX_TITLE" ]; then
+  echo "ERROR: Commit title length is ${TITLE_LEN} (max ${MAX_TITLE})." >&2
+  echo "Title: $TITLE" >&2
+  exit 1
+fi
+
+# Check body lines (skip empty lines and known trailers like Co-authored-by and Change-Id)
+MAX_BODY=72
+# Read lines after the first
+TAIL_LINES=$(tail -n +2 "$MSGFILE" | sed 's/\r$//')
+# Iterate
+while IFS= read -r line; do
+  # skip empty lines
+  [ -z "$line" ] && continue
+  # skip common trailers
+  case "$line" in
+    Co-authored-by:*|Change-Id:*) continue ;;
+  esac
+  L=${#line}
+  if [ "$L" -gt "$MAX_BODY" ]; then
+    echo "ERROR: Commit body line exceeds ${MAX_BODY} chars (${L}):" >&2
+    echo "$line" >&2
+    exit 1
+  fi
+done <<EOF
+$TAIL_LINES

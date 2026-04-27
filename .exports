@@ -18,4 +18,7 @@ export LESS_TERMCAP_md="${yellow}"
 export MANPAGER='less -X'
 
 # Always enable colored `grep` output.
-export GREP_OPTIONS='--color=auto'
+# GREP_OPTIONS is deprecated and can cause unexpected behavior in some environments.
+# Prefer an alias instead (applies in interactive shells):
+# export GREP_OPTIONS='--color=auto'
+alias grep='grep --color=auto'

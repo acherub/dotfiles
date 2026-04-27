@@ -83,7 +83,7 @@ function gitio() {
 		echo "Usage: \`gitio slug url\`"
 		return 1
 	fi
-	curl -i http://git.io/ -F "url=${2}" -F "code=${1}"
+	curl -sS https://git.io/ -F "url=${2}" -F "code=${1}"
 }
 
 # Compare original and gzipped file size

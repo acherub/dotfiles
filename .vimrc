@@ -29,7 +29,7 @@ if g:env !~ "WINDOWS"
       echo "Installing Vundle.."
       echo ""
       silent !mkdir -p ~/.vim/bundle
-      silent !git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+      silent !git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
       let iCanHazVundle=0
     endif
 endif
@@ -53,7 +53,7 @@ endif
 
 
 " let Vundle manage Vundle, required
-Plugin 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
 
 " :: coding
 Plugin 'autoload_cscope.vim'
@@ -186,22 +186,17 @@ set termencoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf-8,big5,gb2312,latin1
 
-function! ViewUTF8()
-    set encoding=utf-8
-    set termencoding=big5
-endfunction
+"function! UTF8()
+"    set encoding=utf-8
+"    set termencoding=big5
+"    set fileencoding=utf-8
+"    set fileencodings=ucs-bom,big5,utf-8,latin1
+"endfunction
 
-function! UTF8()
-    set encoding=utf-8
-    set termencoding=big5
-    set fileencoding=utf-8
-    set fileencodings=ucs-bom,big5,utf-8,latin1
-endfunction
-
-function! Big5()
-    set encoding=big5
-    set fileencoding=big5
-endfunction
+"function! Big5()
+"    set encoding=big5
+"    set fileencoding=big5
+"endfunction
 
 " 2022/01/06 --> Not sure if it's required
 "============ encoding utf8 ===============
@@ -442,102 +437,102 @@ map td :tabclose<CR>
 "-----------------------------------------------------------------------
 " Tip #382: Search for <cword> and replace with input() in all open buffers
 "-----------------------------------------------------------------------
-function! Replace()
-    let s:word = input("Replace " . expand('<cword>') . " with:")
-    :exe 'bufdo! %s/\<' . expand('<cword>') . '\>/' . s:word . '/ge'
-    :unlet! s:word
-endfunction
+"function! Replace()
+"    let s:word = input("Replace " . expand('<cword>') . " with:")
+"    :exe 'bufdo! %s/\<' . expand('<cword>') . '\>/' . s:word . '/ge'
+"    :unlet! s:word
+"endfunction
 
 " Replace the current word in all opened buffers
-map <leader>r :call Replace()<CR>
+map <leader>r :call functions#Replace()<CR>
 
 "-----------------------------------------------------------------------
 " Remove trailing whitespace
 "-----------------------------------------------------------------------
-highlight TrailingWhitespaces ctermbg=gray guibg=gray
-match TrailingWhitespaces /\s\+$/
+"highlight TrailingWhitespaces ctermbg=gray guibg=gray
+"match TrailingWhitespaces /\s\+$/
 
-function! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    %s/$\n\+\%$//ge
-    call cursor(l, c)
-endfunction
+"function! <SID>StripTrailingWhitespaces()
+"    let l = line(".")
+"    let c = col(".")
+"    %s/\s\+$//e
+"    %s/$\n\+\%$//ge
+"    call cursor(l, c)
+"endfunction
 
-autocmd FileWritePre   *.c,*.cpp,*.h,*.js,*.py,*.java,*.tex :call <SID>StripTrailingWhitespaces()
-autocmd FileAppendPre  *.c,*.cpp,*.h,*.js,*.py,*.java,*.tex :call <SID>StripTrailingWhitespaces()
-autocmd FilterWritePre *.c,*.cpp,*.h,*.js,*.py,*.java,*.tex :call <SID>StripTrailingWhitespaces()
-autocmd BufWritePre    *.c,*.cpp,*.h,*.js,*.py,*.java,*.tex :call <SID>StripTrailingWhitespaces()
-nmap <F2> :call <SID>StripTrailingWhitespaces()<CR>
+"autocmd FileWritePre   *.c,*.cpp,*.h,*.js,*.py,*.java,*.tex :call <SID>StripTrailingWhitespaces()
+"autocmd FileAppendPre  *.c,*.cpp,*.h,*.js,*.py,*.java,*.tex :call <SID>StripTrailingWhitespaces()
+"autocmd FilterWritePre *.c,*.cpp,*.h,*.js,*.py,*.java,*.tex :call <SID>StripTrailingWhitespaces()
+"autocmd BufWritePre    *.c,*.cpp,*.h,*.js,*.py,*.java,*.tex :call <SID>StripTrailingWhitespaces()
+"nmap <F2> :call <SID>StripTrailingWhitespaces()<CR>
 
-" Strip trailing whitespace (,ss)
-function! StripWhitespace()
-    let save_cursor = getpos(".")
-    let old_query = getreg('/')
-    :%s/\s\+$//e
-    call setpos('.', save_cursor)
-    call setreg('/', old_query)
-endfunction
-noremap <leader>ss :call StripWhitespace()<CR>
+"" Strip trailing whitespace (,ss)
+"function! StripWhitespace()
+"    let save_cursor = getpos(".")
+"    let old_query = getreg('/')
+"    :%s/\s\+$//e
+"    call setpos('.', save_cursor)
+"    call setreg('/', old_query)
+"endfunction
+"noremap <leader>ss :call StripWhitespace()<CR>
 
 "-----------------------------------------------------------------------
 " Language Specific
 "-----------------------------------------------------------------------
 " C++
-function! GenCppHeader()
-    call setline(1, "#include <iostream>")
-    call append(line("."), "")
-    call append(line(".")+1, "using namespace std;")
-    call append(line(".")+2, "")
-    call append(line(".")+3, "int main(void)")
-    call append(line(".")+4, "{")
-    call append(line(".")+5, "")
-    call append(line(".")+6, "  return 0;")
-    call append(line(".")+7, "}")
-    call append(line(".")+8, "")
-endfunction
+"function! GenCppHeader()
+"    call setline(1, "#include <iostream>")
+"    call append(line("."), "")
+"    call append(line(".")+1, "using namespace std;")
+"    call append(line(".")+2, "")
+"    call append(line(".")+3, "int main(void)")
+"    call append(line(".")+4, "{")
+"    call append(line(".")+5, "")
+"    call append(line(".")+6, "  return 0;")
+"    call append(line(".")+7, "}")
+"    call append(line(".")+8, "")
+"endfunction
 
-autocmd BufNewFile *.cpp exec ":call GenCppHeader()"
+"autocmd BufNewFile *.cpp exec ":call functions#GenCppHeader()"
 
 " Perl
-function! GenPerlHeader()
-    call setline(1, "#!/usr/bin/perl")
-    call append(line("."), "")
-    call append(line(".")+1, "# Author: Chi, Chun-Hsien (acherub)")
-    call append(line(".")+2, "# Email: chunhsienchi@gmail.com")
-    call append(line(".")+3, "")
-    call append(line(".")+4, "use strict;")
-    call append(line(".")+5, "use warnings;")
-    call append(line(".")+6, "use utf8;")
-    call append(line(".")+7, "")
-    call append(line(".")+8, 'binmode(STDIN, ":encoding(utf8)");')
-    call append(line(".")+9, 'binmode(STDOUT, ":encoding(utf8)");')
-    call append(line(".")+10, 'binmode(STDERR, ":encoding(utf8)");')
-endfunction
+"function! GenPerlHeader()
+"    call setline(1, "#!/usr/bin/perl")
+"    call append(line("."), "")
+"    call append(line(".")+1, "# Author: Chi, Chun-Hsien (acherub)")
+"    call append(line(".")+2, "# Email: chunhsienchi@gmail.com")
+"    call append(line(".")+3, "")
+"    call append(line(".")+4, "use strict;")
+"    call append(line(".")+5, "use warnings;")
+"    call append(line(".")+6, "use utf8;")
+"    call append(line(".")+7, "")
+"    call append(line(".")+8, 'binmode(STDIN, ":encoding(utf8)");')
+"    call append(line(".")+9, 'binmode(STDOUT, ":encoding(utf8)");')
+"    call append(line(".")+10, 'binmode(STDERR, ":encoding(utf8)");')
+"endfunction
 
-autocmd BufNewFile *.pl exec ":call GenPerlHeader()"
-autocmd FileType perl map <leader>e :w<CR>:!perl %<CR>
+"autocmd BufNewFile *.pl exec ":call functions#GenPerlHeader()"
+"autocmd FileType perl map <leader>e :w<CR>:!perl %<CR>
 
 " Python
-function! GenPythonHeader()
-    call setline(1, '#!/usr/bin/python')
-    call append(line("."), '# -*- coding: utf-8 -*-')
-    call append(line(".")+1, '')
-    call append(line(".")+2, 'import re')
-    call append(line(".")+3, 'import math')
-    call append(line(".")+4, 'import sys')
-    call append(line(".")+5, 'import codecs')
-    call append(line(".")+6, '')
-    call append(line(".")+7, 'if __name__ == "__main__":')
-endfunction
+"function! GenPythonHeader()
+"    call setline(1, '#!/usr/bin/python')
+"    call append(line("."), '# -*- coding: utf-8 -*-')
+"    call append(line(".")+1, '')
+"    call append(line(".")+2, 'import re')
+"    call append(line(".")+3, 'import math')
+"    call append(line(".")+4, 'import sys')
+"    call append(line(".")+5, 'import codecs')
+"    call append(line(".")+6, '')
+"    call append(line(".")+7, 'if __name__ == "__main__":')
+"endfunction
 
 " Insert header when opening a new python file
-autocmd BufNewFile *.py exec ":call GenPythonHeader()"
-autocmd FileType python map <leader>e :w<CR>:!python %<CR>
+"autocmd BufNewFile *.py exec ":call functions#GenPythonHeader()"
+"autocmd FileType python map <leader>e :w<CR>:!python %<CR>
 
 autocmd BufRead /tmp/crontab* :set backupcopy=yes
-autocmd BufRead wscript set syntax=python
+autocmd BufRead wscript,wscript_* set syntax=python
 
 " Set spell checking and automatic wrapping 72 characters in the message
 autocmd Filetype gitcommit setlocal textwidth=72

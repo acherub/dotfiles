@@ -1,3 +1,16 @@
+# NOTE: This Brewfile contains many packages, casks, and extensions. Review compatibility with your Homebrew version before running.
+# Recommended steps:
+#  1) Update Homebrew: brew update
+#  2) Check package availability: brew bundle check --file=Brewfile
+#  3) If formulas are deprecated (e.g. openssl@1.1), adjust the Brewfile before installing.
+# Optionally test in a non-production machine first.
+#
+# The Brewfile includes entries that may need updating or removal:
+#  - openssl@1.1: consider openssl@3 or system OpenSSL
+#  - python@3.8 / python@3.9: consider using latest Python or pyenv to manage versions
+# Recommendation: manually review the Brewfile before running brew bundle install.
+
+
 tap "coursier/formulas"
 tap "homebrew/bundle"
 tap "homebrew/cask-fonts"

@@ -132,3 +132,26 @@ Oh-my-zsh changes the style of editing. Please install it right after you get a 
 * Plugins: zsh-completions zsh-autosuggestions zsh-syntax-highlighting
 
 `fzf` is also one of the must use plugin to enhance the performance.
+
+## Automated Zsh setup (recommended)
+
+A scripted, idempotent installer is included to provision zsh, fzf, plugins and Powerlevel10k across machines without manual steps.
+
+- Script: scripts/setup_zsh.sh
+- Usage: ./scripts/setup_zsh.sh [--dry-run] [--no-omz]
+  - --dry-run: show actions without making changes
+  - --no-omz: do not install Oh My Zsh
+
+What it installs/configures (idempotent):
+- zsh (if missing)
+- fzf (binary, keybindings, completion)
+- fast-syntax-highlighting, zsh-autosuggestions, zsh-completions (plugins)
+- Powerlevel10k theme
+- Deploys .p10k.zsh from this repository to $HOME/.p10k.zsh if present in repo (safe; does not overwrite existing file)
+- Writes a curated ~/.zshrc (backs up existing ~/.zshrc to ~/.zshrc.orig-by-setup_zsh)
+
+Notes:
+- The script attempts to detect the package manager and install dependencies; run with --dry-run first and review changes.
+- To apply on many servers, copy the script and run it via ssh or use the example in the scripts header.
+
+
